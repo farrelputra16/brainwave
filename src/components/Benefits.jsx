@@ -14,9 +14,9 @@ const Benefits = () => {
           className="md:max-w-md lg:max-w-2xl"
           title={
             <>
-              Chat Smarter, Not Harder with{" "}
+              Learn Smarter, Not Harder with{" "}
               <span className="inline-block relative font-semibold">
-                Brainwave
+                Study Crypto
                 <img
                   src={curve}
                   className="absolute top-full left-0 w-full xl:-mt-2 pointer-events-none select-none"
@@ -49,10 +49,7 @@ const Benefits = () => {
                     alt={benefit.title}
                   />
 
-                  <p className="ml-auto font-code text-xs font-bold text-n-1 uppercase tracking-wider">
-                    Explore more
-                  </p>
-                  <Arrow />
+                  
                 </div>
               </div>
 

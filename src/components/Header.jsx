@@ -4,7 +4,6 @@ import { disablePageScroll, enablePageScroll } from "scroll-lock";
 
 import { brainwave } from "../assets";
 import MenuSvg from "../assets/svg/MenuSvg";
-import { links } from "../config";
 import { navigation } from "../constants";
 import Button from "./Button";
 import { HambugerMenu } from "./design/Header";
@@ -40,8 +39,8 @@ const Header = () => {
         <a className="block w-[12rem] xl:mr-8" href="#hero">
           <img
             src={brainwave}
-            width={190}
-            height={40}
+            width={50}
+            height={20}
             alt="Brainwave"
             className="pointer-events-none select-none"
           />
@@ -76,8 +75,8 @@ const Header = () => {
           <HambugerMenu />
         </nav>
 
-        <Button className="hidden lg:flex" href={links.sourceCode} external>
-          Source Code
+        <Button className="hidden lg:flex" href="https://www.instagram.com/studycryptoid/" external>
+          Instagram
         </Button>
 
         <Button
