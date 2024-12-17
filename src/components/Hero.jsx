@@ -54,9 +54,16 @@ const Hero = () => {
             , Join us now!
           </p>
 
-          <Button href="t.me/+QEmggcqYx081NWU9"white>
-            Get started
-          </Button>
+          <Button
+  as="a" // Mengubah elemen Button menjadi tag <a>
+  href="https://t.me/+QEmggcqYx081NWU9" // URL lengkap
+  target="_blank" // Membuka link di tab baru
+  rel="noopener noreferrer" // Keamanan tambahan
+  className="white" // Pastikan Anda memiliki kelas CSS yang sesuai
+>
+  Get started
+</Button>
+
         </div>
 
         <div className="relative max-w-[23rem] mx-auto md:max-w-5xl xl:mb-24">
