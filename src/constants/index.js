@@ -45,7 +45,7 @@ export const navigation = [
   },
   {
     id: "1",
-    title: "Source Code",
+    title: "Instagram",
     url: links.sourceCode,
     onlyMobile: true,
     external: true,
