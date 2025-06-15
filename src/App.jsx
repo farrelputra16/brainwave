@@ -7,6 +7,7 @@ import Hero from "./components/Hero";
 import Pricing from "./components/Pricing";
 import Roadmap from "./components/Roadmap";
 import Services from "./components/Services";
+import Chatbot from "./components/Chatbot";
 
 const App = () => {
   return (
@@ -15,10 +16,11 @@ const App = () => {
         <Header />
         <Hero />
         <Benefits />
-        <Collaboration/>
-        <Services/>
+        <Collaboration />
+        <Services />
       </div>
       <ButtonGradient />
+      <Chatbot />
     </>
   );
 };
