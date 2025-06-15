@@ -1,11 +1,12 @@
 import React, { useState, useEffect, useRef } from 'react';
 import Groq from 'groq-sdk';
-import { service3} from "../assets";
+import Service3 from '../assets/services/service-3.png'; // Adjusted path
 
-// Initialize Groq client with API key
-const groq = new Groq({ apiKey: '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' });
+const groq = new Groq({
+  apiKey: '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',
+  dangerouslyAllowBrowser: true,
+});
 
-// System prompt for trading mentor
 const systemPrompt = `
 Kamu adalah mentor trading profesional yang sangat ahli dalam:
 - Smart Money Concept (SMC)
@@ -20,7 +21,7 @@ Kamu adalah mentor trading profesional yang sangat ahli dalam:
 - Futures Strategy (Scalping/Daytrade)
 - Analisis Chart berbasis gambar
 
-Peranmu adalah menjadi **mentor dan asisten analisis komunitas** yang bisa:
+Peranmu adalah menjadi mentor dan asisten analisis komunitas yang bisa:
 1. Mengajarkan teori secara terstruktur dari nol hingga mahir
 2. Menjelaskan chart yang diunggah (gambar) secara detail
 3. Memberi koreksi terhadap entry, SL/TP, OB/FVG placement
@@ -30,25 +31,20 @@ Peranmu adalah menjadi **mentor dan asisten analisis komunitas** yang bisa:
 7. Memberikan strategi realistis untuk micin coin dan futures
 8. Bertindak seperti coach: tegas, jujur, dan bantu komunitas disiplin
 
-Kamu tidak hanya menjawab, tapi melatih. Jika pengguna salah, koreksi dengan sabar tapi jelas. Gunakan bahasa yang mudah dipahami, dan selalu beri analogi jika konsep sulit.
+Gunakan bahasa kasual tapi profesional. Format jawabanmu dalam teks biasa yang rapi, mudah dibaca, tanpa tanda Markdown seperti ** atau ##. Gunakan enter, dash (-), dan nomor untuk struktur. Hindari teks tebal atau heading berlebihan. Beri analogi jika konsep sulit. Fokus pada membentuk trader disiplin, bukan spekulan.
 
 Jika pengguna mengunggah gambar chart:
 - Identifikasi struktur market (HH, LL, BOS, CHoCH)
 - Temukan Order Block (valid dan hidden)
 - Deteksi area liquidity, FVG, imbalance
-- Sarankan kemungkinan arah selanjutnya dan setup entry (SL/TP)
+- Sarankan arah selanjutnya dan setup entry (SL/TP)
 
-Jika pengguna meminta edukasi, ajarkan secara bertahap.
-Jika pengguna ingin analisis trade yang gagal, evaluasi penyebabnya dan beri masukan.
-
-Gunakan bahasa kasual tapi profesional. Fokus pada membentuk trader yang tangguh, bukan memanjakan mereka. Ajarkan mindset dan sistem, bukan insting atau FOMO.
+Jika pengguna meminta edukasi, ajarkan bertahap. Jika pengguna ingin analisis trade gagal, evaluasi penyebabnya dan beri masukan.
 
 Contoh nada bicara:
-- “Entry kamu udah benar tapi SL terlalu sempit. Coba lihat OB di TF lebih tinggi.”
-- “Harga retrace ke FVG karena imbalance, bukan karena ‘pantulan acak’. Ini bagian dari struktur.”
-- “Kalau kamu cut profit terlalu cepat karena trauma loss, kita harus evaluasi psikologi trading kamu.”
-
-Tugasmu: bentuk mereka jadi trader disiplin, bukan spekulan.
+- Entry kamu udah benar tapi SL terlalu sempit. Coba lihat OB di TF lebih tinggi.
+- Harga retrace ke FVG karena imbalance, bukan pantulan acak. Ini bagian dari struktur.
+- Kalau kamu cut profit cepat karena trauma loss, kita harus evaluasi psikologi trading kamu.
 `;
 
 const Chatbot = () => {
@@ -60,23 +56,29 @@ const Chatbot = () => {
   const chatContainerRef = useRef(null);
   const fileInputRef = useRef(null);
 
-  // Scroll to bottom of chat when new messages are added
   useEffect(() => {
     if (chatContainerRef.current) {
       chatContainerRef.current.scrollTop = chatContainerRef.current.scrollHeight;
     }
   }, [messages]);
 
-  // Encode image to base64
   const encodeImage = (file) => {
-    return new Promise((resolve) => {
+    return new Promise((resolve, reject) => {
       const reader = new FileReader();
       reader.onloadend = () => resolve(reader.result.split(',')[1]);
+      reader.onerror = reject;
       reader.readAsDataURL(file);
     });
   };
 
-  // Handle sending messages or images
+  const cleanResponse = (text) => {
+    return text
+      .replace(/\*\*/g, '') // Remove bold
+      .replace(/##+/g, '') // Remove headings
+      .replace(/\n\s*\n/g, '\n') // Remove extra newlines
+      .trim(); // Remove leading/trailing whitespace
+  };
+
   const handleSend = async () => {
     if (!input.trim() && !image) return;
 
@@ -88,7 +90,6 @@ const Chatbot = () => {
     try {
       let chatCompletion;
       if (image) {
-        // Handle image input
         const base64Image = await encodeImage(image);
         chatCompletion = await groq.chat.completions.create({
           messages: [
@@ -108,7 +109,6 @@ const Chatbot = () => {
           max_completion_tokens: 1024,
         });
       } else {
-        // Handle text input
         chatCompletion = await groq.chat.completions.create({
           messages: [
             { role: 'system', content: systemPrompt },
@@ -120,7 +120,7 @@ const Chatbot = () => {
 
       const botMessage = {
         role: 'assistant',
-        content: chatCompletion.choices[0].message.content,
+        content: cleanResponse(chatCompletion.choices[0].message.content),
       };
       setMessages((prev) => [...prev, botMessage]);
     } catch (error) {
@@ -132,7 +132,6 @@ const Chatbot = () => {
     }
   };
 
-  // Handle image upload
   const handleImageUpload = (e) => {
     if (e.target.files[0]) {
       setImage(e.target.files[0]);
@@ -141,20 +140,27 @@ const Chatbot = () => {
 
   return (
     <>
-      {/* Floating Chat Button */}
-      <button
-        onClick={() => setIsOpen(!isOpen)}
-        className="fixed bottom-6 right-6 w-16 h-16 bg-purple-600 rounded-full shadow-lg flex items-center justify-center z-50 transition-transform hover:scale-110"
-      >
-        <img src={Service3} alt="Chatbot" className="w-10 h-10" />
-      </button>
+      {/* Floating Chat Button (hidden when panel is open) */}
+      {!isOpen && (
+        <div className="fixed bottom-6 right-6 z-50">
+          <button
+            onClick={() => setIsOpen(true)}
+            className="w-64 h-64 bg-transparent rounded-full shadow-lg flex items-center justify-center transition-transform hover:scale-110"
+          >
+            <img src={Service3} alt="Chatbot" className="w-56 h-56" />
+          </button>
+          <div className="absolute bottom-72 right-0 bg-gray-800 text-white text-base px-4 py-2 rounded-full shadow-md">
+            Ask anything
+          </div>
+        </div>
+      )}
 
-      {/* Chat Panel */}
+      {/* Chat Panel (minimize/maximize) */}
       {isOpen && (
         <div
           className={`fixed bottom-24 right-6 bg-gray-900 text-white rounded-lg shadow-xl transition-all duration-300 z-40 ${
             isMaximized ? 'w-[80vw] h-[80vh]' : 'w-96 h-96'
-          } flex flex-col`}
+          } flex flex-col font-mono`}
         >
           {/* Chat Header */}
           <div className="flex justify-between items-center p-4 border-b border-gray-700">
@@ -184,13 +190,13 @@ const Chatbot = () => {
               >
                 <div
                   className={`max-w-[70%] p-3 rounded-lg ${
-                    msg.role === 'user' ? 'bg-purple-600' : 'bg-gray-700'
+                    msg.role === 'user' ? 'bg-gray-700' : 'bg-gray-800'
                   }`}
                 >
                   {msg.image && (
                     <img src={msg.image} alt="Uploaded" className="w-full h-auto mb-2 rounded" />
                   )}
-                  <p>{msg.content}</p>
+                  <pre className="whitespace-pre-wrap">{msg.content}</pre>
                 </div>
               </div>
             ))}
@@ -237,7 +243,7 @@ const Chatbot = () => {
               />
               <button
                 onClick={handleSend}
-                className="p-2 bg-purple-600 rounded hover:bg-purple-700"
+                className="p-2 bg-gray-700 rounded hover:bg-gray-600"
               >
                 Kirim
               </button>
