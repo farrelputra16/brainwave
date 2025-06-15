@@ -23,7 +23,7 @@ const Services = () => {
             <>
               Generative AI made for{" "}
               <span className="inline-block relative font-semibold">
-                creators
+                Traders
                 <img
                   src={curve}
                   className="absolute top-full left-0 w-full xl:-mt-2 pointer-events-none select-none"
@@ -34,7 +34,7 @@ const Services = () => {
               </span>
             </>
           }
-          text="Brainwave unlocks the potential of AI-powered applications."
+          text="Study Crypto Bot unlocks the potential of AI-powered applications."
         />
 
         <div className="relative">
@@ -53,7 +53,7 @@ const Services = () => {
             <div className="relative z-1 max-w-[17rem] ml-auto">
               <h4 className="h4 mb-4">Smartest AI</h4>
               <p className="body-2 mb-[3rem] text-n-3">
-                Brainwave unlocks the potential of AI-powered applications.
+                Study Crypto Bot unlocks the potential of AI-powered applications.
               </p>
               <ul className="body-2">
                 {brainwaveServices.map((item, i) => (
@@ -91,10 +91,9 @@ const Services = () => {
               </div>
 
               <div className="absolute inset-0 flex flex-col justify-end p-8 bg-gradient-to-b from-n-8/0 to-n-8/90 lg:p-15">
-                <h4 className="h4 mb-4">Photo editing</h4>
+                <h4 className="h4 mb-4">Chart Analyst</h4>
                 <p className="body-2 mb-[3rem] text-n-3">
-                  Automatically enhance your photos using our AI app&apos;s
-                  photo editing feature. Try it now!
+                  Automatically Analyse Chart and help you knowing the price action. Try it now!
                 </p>
               </div>
 
@@ -103,10 +102,9 @@ const Services = () => {
 
             <div className="p-4 bg-n-7 rounded-3xl overflow-hidden lg:min-h-[46rem]">
               <div className="py-12 px-4 xl:px-8">
-                <h4 className="h4 mb-4">Video generation</h4>
+                <h4 className="h4 mb-4">Ask Financial Lesson</h4>
                 <p className="body-2 mb-[2rem] text-n-3">
-                  The world&apos;s most powerful AI photo and video art
-                  generation engine. What will you create?
+                  The world&apos;s most powerful AI on Financial Assistant. What will you create?
                 </p>
 
                 <ul className="flex items-center justify-between">

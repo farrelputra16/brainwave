@@ -59,8 +59,8 @@ export const notificationImages = [notification4, notification3, notification2];
 export const companyLogos = [yourlogo];
 
 export const brainwaveServices = [
-  "Photo generating",
-  "Photo enhance",
+  "Analyse Chart",
+  "Ask Financial Lesson",
   "Seamless Integration",
 ];
 
@@ -109,7 +109,7 @@ export const roadmap = [
 ];
 
 export const collabText =
-  "With smart automation and top-notch security, it's the perfect solution for teams looking to work smarter.";
+  "";
 
 export const collabContent = [
   {
@@ -123,7 +123,7 @@ export const collabContent = [
   },
   {
     id: "2",
-    title: "Top-notch Security",
+    title: "Learn with Ease",
   },
 ];
 

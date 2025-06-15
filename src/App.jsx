@@ -15,6 +15,8 @@ const App = () => {
         <Header />
         <Hero />
         <Benefits />
+        <Collaboration/>
+        <Services/>
       </div>
       <ButtonGradient />
     </>
