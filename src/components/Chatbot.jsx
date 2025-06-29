@@ -3,7 +3,7 @@ import Groq from 'groq-sdk';
 import Service3 from '../assets/services/service-3.png'; // Adjusted path
 
 const groq = new Groq({
-  apiKey: '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',
+  apiKey: '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',
   dangerouslyAllowBrowser: true,
 });
 
